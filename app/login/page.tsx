@@ -42,6 +42,7 @@ export default function LoginPage(){
     <div className="container" style={{maxWidth:480}}>
       <h1>Inloggen</h1>
       <div className="card">
+        {/* Supabase Email/Password Auth */}
         <label style={{display:'block',marginBottom:8}}>Email
           <input type="email" value={email} onChange={e=>setEmail(e.target.value)} style={{width:'100%',padding:8,marginTop:4}} />
         </label>
