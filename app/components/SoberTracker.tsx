@@ -42,7 +42,7 @@ export default function SoberTracker(){
       const supabase = getSupabase()
       const user = await supabase.auth.getUser()
       if(user.data?.user){
-        await supabase.from('sober_entries').insert({ user_id: user.data.user.id, start_date: iso, days: 0 })
+        await supabase.from('sober_entries').insert<any>({ user_id: user.data.user.id, start_date: iso, days: 0 })
       }
     }catch(e){
       // ignore; still save locally
@@ -58,7 +58,7 @@ export default function SoberTracker(){
       const supabase = getSupabase()
       const user = await supabase.auth.getUser()
       if(user.data?.user){
-        await supabase.from('sober_entries').insert({ user_id: user.data.user.id, start_date: new Date().toISOString(), days: 0 })
+        await supabase.from('sober_entries').insert<any>({ user_id: user.data.user.id, start_date: new Date().toISOString(), days: 0 })
       }
     }catch(e){ }
     setSaving(false)
