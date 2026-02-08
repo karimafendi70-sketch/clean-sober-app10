@@ -40,7 +40,7 @@ export default function LoginPage(){
 
   return (
     <div className="container" style={{maxWidth:480}}>
-      <h1>Login</h1>
+      <h1>Inloggen</h1>
       <div className="card">
         <label style={{display:'block',marginBottom:8}}>Email
           <input type="email" value={email} onChange={e=>setEmail(e.target.value)} style={{width:'100%',padding:8,marginTop:4}} />
