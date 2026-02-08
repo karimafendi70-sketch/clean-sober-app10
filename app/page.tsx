@@ -1,5 +1,6 @@
 "use client"
 import React, {useState, useEffect} from 'react'
+import Link from 'next/link'
 
 function daysBetween(startISO: string | null){
   if(!startISO) return 0
@@ -53,6 +54,7 @@ export default function Home(){
           </div>
         </div>
       </div>
+      <p style={{marginTop:'20px',textAlign:'center'}}><Link href="/login">Naar login →</Link></p>
     </div>
   )
 }
