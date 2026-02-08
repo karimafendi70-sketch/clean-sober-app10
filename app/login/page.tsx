@@ -30,8 +30,8 @@ export default function LoginPage(){
             onChange={e=>setEmail(e.target.value)} 
             placeholder="jouw@email.com"
             style={{width:'100%',padding:'12px',border:'1px solid #d1d5db',borderRadius:'8px',fontSize:'14px',transition:'all 0.2s'}}
-            onFocus={e => e.target.style.borderColor='#16a34a'}
-            onBlur={e => e.target.style.borderColor='#d1d5db'}
+            onFocus={e => {const el = e.target as HTMLInputElement; el.style.borderColor='#16a34a'}}
+            onBlur={e => {const el = e.target as HTMLInputElement; el.style.borderColor='#d1d5db'}}
           />
         </div>
 
@@ -43,16 +43,16 @@ export default function LoginPage(){
             onChange={e=>setPassword(e.target.value)} 
             placeholder="••••••••"
             style={{width:'100%',padding:'12px',border:'1px solid #d1d5db',borderRadius:'8px',fontSize:'14px',transition:'all 0.2s'}}
-            onFocus={e => e.target.style.borderColor='#16a34a'}
-            onBlur={e => e.target.style.borderColor='#d1d5db'}
+            onFocus={e => {const el = e.target as HTMLInputElement; el.style.borderColor='#16a34a'}}
+            onBlur={e => {const el = e.target as HTMLInputElement; el.style.borderColor='#d1d5db'}}
           />
         </div>
 
         <button 
           onClick={handleLogin}
           style={{width:'100%',padding:'12px',background:'#16a34a',color:'white',border:'none',borderRadius:'8px',fontWeight:'600',fontSize:'16px',cursor:'pointer',marginBottom:'12px',transition:'all 0.2s'}}
-          onMouseEnter={e => {e.target.style.background='#15803d'; e.target.style.transform='translateY(-2px)'; e.target.style.boxShadow='0 4px 12px rgba(22,163,74,0.3)'}}
-          onMouseLeave={e => {e.target.style.background='#16a34a'; e.target.style.transform='translateY(0)'; e.target.style.boxShadow='none'}}
+          onMouseEnter={e => {const el = e.target as HTMLButtonElement; el.style.background='#15803d'; el.style.transform='translateY(-2px)'; el.style.boxShadow='0 4px 12px rgba(22,163,74,0.3)'}}
+          onMouseLeave={e => {const el = e.target as HTMLButtonElement; el.style.background='#16a34a'; el.style.transform='translateY(0)'; el.style.boxShadow='none'}}
         >
           {isSignUp ? 'Account maken' : 'Inloggen'}
         </button>
@@ -60,8 +60,8 @@ export default function LoginPage(){
         <button 
           onClick={() => setIsSignUp(!isSignUp)}
           style={{width:'100%',padding:'12px',background:'#e5e7eb',color:'#374151',border:'none',borderRadius:'8px',fontWeight:'600',fontSize:'16px',cursor:'pointer',transition:'all 0.2s'}}
-          onMouseEnter={e => {e.target.style.background='#d1d5db'; e.target.style.transform='translateY(-2px)'}}
-          onMouseLeave={e => {e.target.style.background='#e5e7eb'; e.target.style.transform='translateY(0)'}}
+          onMouseEnter={e => {const el = e.target as HTMLButtonElement; el.style.background='#d1d5db'; el.style.transform='translateY(-2px)'}}
+          onMouseLeave={e => {const el = e.target as HTMLButtonElement; el.style.background='#e5e7eb'; el.style.transform='translateY(0)'}}
         >
           {isSignUp ? 'Al een account? Inloggen' : 'Geen account? Maak er een'}
         </button>
