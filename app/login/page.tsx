@@ -1,6 +1,6 @@
 "use client"
 import React, {useState} from 'react'
-import { getSupabase } from '../../lib/supabaseClient'
+import { createClient } from '@supabase/supabase-js'
 
 export default function LoginPage(){
   const [email,setEmail] = useState('')
@@ -12,7 +12,10 @@ export default function LoginPage(){
     setLoading(true)
     setMessage(null)
     try{
-      const supabase = getSupabase()
+      const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+      )
       const { data, error } = await supabase.auth.signUp({ email, password })
       if(error) setMessage(error.message)
       else setMessage('Check je inbox voor een bevestigingsmail (of ingelogd).')
@@ -24,7 +27,10 @@ export default function LoginPage(){
     setLoading(true)
     setMessage(null)
     try{
-      const supabase = getSupabase()
+      const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+      )
       const { data, error } = await supabase.auth.signInWithPassword({ email, password })
       if(error) setMessage(error.message)
       else setMessage('Ingelogd')
@@ -54,4 +60,5 @@ export default function LoginPage(){
       </div>
     </div>
   )
+}
 }
