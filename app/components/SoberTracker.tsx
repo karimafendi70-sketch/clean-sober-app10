@@ -39,7 +39,7 @@ export default function SoberTracker(){
     setStartDate(iso)
     setSaving(true)
     try{
-      const supabase = getSupabase()
+      const supabase: any = getSupabase()
       const user = await supabase.auth.getUser()
       if(user.data?.user){
         await supabase.from('sober_entries').insert<any>({ user_id: user.data.user.id, start_date: iso, days: 0 })
@@ -55,7 +55,7 @@ export default function SoberTracker(){
     setManualDays(0)
     setSaving(true)
     try{
-      const supabase = getSupabase()
+      const supabase: any = getSupabase()
       const user = await supabase.auth.getUser()
       if(user.data?.user){
         await supabase.from('sober_entries').insert<any>({ user_id: user.data.user.id, start_date: new Date().toISOString(), days: 0 })
