@@ -1,6 +1,6 @@
 "use client"
 import React, {useState} from 'react'
-import { supabase } from '../../lib/supabaseClient'
+import { getSupabase } from '../../lib/supabaseClient'
 
 export default function LoginPage(){
   const [email,setEmail] = useState('')
@@ -12,6 +12,7 @@ export default function LoginPage(){
     setLoading(true)
     setMessage(null)
     try{
+      const supabase = getSupabase()
       const { data, error } = await supabase.auth.signUp({ email, password })
       if(error) setMessage(error.message)
       else setMessage('Check je inbox voor een bevestigingsmail (of ingelogd).')
@@ -23,6 +24,7 @@ export default function LoginPage(){
     setLoading(true)
     setMessage(null)
     try{
+      const supabase = getSupabase()
       const { data, error } = await supabase.auth.signInWithPassword({ email, password })
       if(error) setMessage(error.message)
       else setMessage('Ingelogd')
