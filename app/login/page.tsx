@@ -1,18 +1,40 @@
 "use client"
 import React, {useState} from 'react'
+import { useAuth } from '@/lib/AuthContext'
+import { useRouter } from 'next/navigation'
 
 export default function LoginPage(){
   const [email,setEmail] = useState('')
   const [password,setPassword] = useState('')
   const [message,setMessage] = useState<string|null>(null)
   const [isSignUp, setIsSignUp] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const { signIn, signUp } = useAuth()
+  const router = useRouter()
 
-  async function handleLogin(){
+  async function handleAuth(){
     if(!email || !password) {
       setMessage('Vul email en wachtwoord in')
       return
     }
-    setMessage(isSignUp ? 'Account aangemaakt!' : 'Ingelogd!')
+    
+    setLoading(true)
+    setMessage(null)
+    
+    try {
+      if(isSignUp) {
+        await signUp(email, password)
+        setMessage('✓ Account aangemaakt! Check je email voor verificatie.')
+      } else {
+        await signIn(email, password)
+        setMessage('✓ Ingelogd!')
+        setTimeout(() => router.push('/'), 1000)
+      }
+    } catch (error: any) {
+      setMessage('✗ ' + (error.message || 'Er ging iets mis'))
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -49,12 +71,13 @@ export default function LoginPage(){
         </div>
 
         <button 
-          onClick={handleLogin}
-          style={{width:'100%',padding:'12px',background:'#16a34a',color:'white',border:'none',borderRadius:'8px',fontWeight:'600',fontSize:'16px',cursor:'pointer',marginBottom:'12px',transition:'all 0.2s'}}
-          onMouseEnter={e => {const el = e.target as HTMLButtonElement; el.style.background='#15803d'; el.style.transform='translateY(-2px)'; el.style.boxShadow='0 4px 12px rgba(22,163,74,0.3)'}}
-          onMouseLeave={e => {const el = e.target as HTMLButtonElement; el.style.background='#16a34a'; el.style.transform='translateY(0)'; el.style.boxShadow='none'}}
+          onClick={handleAuth}
+          disabled={loading}
+          style={{width:'100%',padding:'12px',background:loading?'#9ca3af':'#16a34a',color:'white',border:'none',borderRadius:'8px',fontWeight:'600',fontSize:'16px',cursor:loading?'default':'pointer',marginBottom:'12px',transition:'all 0.2s'}}
+          onMouseEnter={e => {if(!loading){const el = e.target as HTMLButtonElement; el.style.background='#15803d'; el.style.transform='translateY(-2px)'; el.style.boxShadow='0 4px 12px rgba(22,163,74,0.3)'}}}
+          onMouseLeave={e => {if(!loading){const el = e.target as HTMLButtonElement; el.style.background='#16a34a'; el.style.transform='translateY(0)'; el.style.boxShadow='none'}}}
         >
-          {isSignUp ? 'Account maken' : 'Inloggen'}
+          {loading ? 'Bezig...' : (isSignUp ? 'Account maken' : 'Inloggen')}
         </button>
 
         <button 
@@ -67,14 +90,10 @@ export default function LoginPage(){
         </button>
 
         {message && (
-          <div style={{marginTop:'16px',padding:'12px',background:message.includes('!')? '#d1fae5':'#fee2e2',color:message.includes('!')? '#065f46':'#991b1b',borderRadius:'8px',textAlign:'center',fontSize:'14px'}}>
-            ✓ {message}
+          <div style={{marginTop:'16px',padding:'12px',background:message.includes('✓')? '#d1fae5':'#fee2e2',color:message.includes('✓')? '#065f46':'#991b1b',borderRadius:'8px',textAlign:'center',fontSize:'14px'}}>
+            {message}
           </div>
         )}
-
-        <p style={{textAlign:'center',color:'#9ca3af',fontSize:'12px',marginTop:'20px'}}>
-          Supabase integratie wordt binnenkort toegevoegd
-        </p>
       </div>
     </div>
   )

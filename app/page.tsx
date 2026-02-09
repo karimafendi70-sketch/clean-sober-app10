@@ -1,6 +1,7 @@
 "use client"
 import React, {useState, useEffect} from 'react'
 import Link from 'next/link'
+import { useAuth } from '@/lib/AuthContext'
 
 function daysBetween(startISO: string | null){
   if(!startISO) return 0
@@ -13,6 +14,7 @@ function daysBetween(startISO: string | null){
 export default function Home(){
   const [startDate, setStartDate] = useState<string | null>(null)
   const [days, setDays] = useState<number>(0)
+  const { user, signOut } = useAuth()
 
   useEffect(()=>{
     const stored = localStorage.getItem('sober.startDate')
@@ -40,8 +42,28 @@ export default function Home(){
   return (
     <div style={{minHeight:'100vh',background:'linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%)',padding:'20px',display:'flex',alignItems:'center',justifyContent:'center'}}>
       <div style={{maxWidth:'500px',width:'100%'}}>
-        {/* Header */}
-        <h1 style={{textAlign:'center',color:'#064e3b',fontSize:'32px',marginBottom:'30px'}}>Sober Tracker</h1>
+        {/* Header with user info */}
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'20px'}}>
+          <h1 style={{color:'#064e3b',fontSize:'32px',margin:0}}>Sober Tracker</h1>
+          {user && (
+            <button 
+              onClick={() => signOut()}
+              style={{padding:'8px 16px',background:'rgba(255,255,255,0.7)',color:'#064e3b',border:'none',borderRadius:'8px',fontSize:'14px',fontWeight:'600',cursor:'pointer',transition:'all 0.2s'}}
+              onMouseEnter={e => {const el = e.target as HTMLButtonElement; el.style.background='white'; el.style.transform='translateY(-2px)'}}
+              onMouseLeave={e => {const el = e.target as HTMLButtonElement; el.style.background='rgba(255,255,255,0.7)'; el.style.transform='translateY(0)'}}
+            >
+              Uitloggen
+            </button>
+          )}
+        </div>
+
+        {user && (
+          <div style={{background:'rgba(255,255,255,0.7)',borderRadius:'12px',padding:'12px 16px',marginBottom:'20px',border:'2px solid rgba(22,163,74,0.2)'}}>
+            <p style={{margin:0,fontSize:'14px',color:'#064e3b'}}>
+              👤 <span style={{fontWeight:'600'}}>{user.email}</span>
+            </p>
+          </div>
+        )}
 
         {/* Main Card */}
         <div style={{background:'white',borderRadius:'16px',padding:'40px',boxShadow:'0 20px 60px rgba(0,0,0,0.1)',marginBottom:'20px'}}>
@@ -77,14 +99,23 @@ export default function Home(){
           </div>
         </div>
 
-        {/* Login Link */}
+        {/* Login/Dashboard Link */}
         <div style={{textAlign:'center'}}>
-          <Link href="/login" style={{display:'inline-block',padding:'12px 24px',background:'rgba(255,255,255,0.6)',color:'#064e3b',borderRadius:'10px',fontWeight:'600',textDecoration:'none',transition:'all 0.3s',border:'2px solid rgba(22,163,74,0.2)',boxSizing:'border-box'}}
-            onMouseEnter={e => {const el = e.target as HTMLAnchorElement; el.style.background='white'; el.style.transform='translateY(-2px)'; el.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'}}
-            onMouseLeave={e => {const el = e.target as HTMLAnchorElement; el.style.background='rgba(255,255,255,0.6)'; el.style.transform='translateY(0)'; el.style.boxShadow='none'}}
-          >
-            → Inloggen
-          </Link>
+          {user ? (
+            <Link href="/dashboard" style={{display:'inline-block',padding:'12px 24px',background:'rgba(255,255,255,0.6)',color:'#064e3b',borderRadius:'10px',fontWeight:'600',textDecoration:'none',transition:'all 0.3s',border:'2px solid rgba(22,163,74,0.2)',boxSizing:'border-box'}}
+              onMouseEnter={e => {const el = e.target as HTMLAnchorElement; el.style.background='white'; el.style.transform='translateY(-2px)'; el.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'}}
+              onMouseLeave={e => {const el = e.target as HTMLAnchorElement; el.style.background='rgba(255,255,255,0.6)'; el.style.transform='translateY(0)'; el.style.boxShadow='none'}}
+            >
+              📊 Dashboard
+            </Link>
+          ) : (
+            <Link href="/login" style={{display:'inline-block',padding:'12px 24px',background:'rgba(255,255,255,0.6)',color:'#064e3b',borderRadius:'10px',fontWeight:'600',textDecoration:'none',transition:'all 0.3s',border:'2px solid rgba(22,163,74,0.2)',boxSizing:'border-box'}}
+              onMouseEnter={e => {const el = e.target as HTMLAnchorElement; el.style.background='white'; el.style.transform='translateY(-2px)'; el.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'}}
+              onMouseLeave={e => {const el = e.target as HTMLAnchorElement; el.style.background='rgba(255,255,255,0.6)'; el.style.transform='translateY(0)'; el.style.boxShadow='none'}}
+            >
+              → Inloggen
+            </Link>
+          )}
         </div>
       </div>
     </div>
