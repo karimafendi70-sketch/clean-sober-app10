@@ -3,20 +3,29 @@ import { NextResponse } from 'next/server'
 
 export async function POST(request: Request) {
   try {
-    // Check if Resend is configured
-    if (!process.env.RESEND_API_KEY) {
-      console.warn('Resend API key not configured')
-      return NextResponse.json({ 
-        success: false, 
-        message: 'Email service not configured' 
-      }, { status: 503 })
-    }
-
-    // Initialize Resend only when we need it
-    const resend = new Resend(process.env.RESEND_API_KEY)
-    
     const { email, days, milestones } = await request.json()
 
+    if (!email) {
+      return NextResponse.json({ error: 'Email is required' }, { status: 400 })
+    }
+
+    // DEMO MODE: Als geen API key, simuleer success
+    if (!process.env.RESEND_API_KEY) {
+      console.log('📧 DEMO MODE: Email zou worden verstuurd naar:', email)
+      console.log('📊 Streak dagen:', days)
+      console.log('🎯 Dit is een simulatie - configureer RESEND_API_KEY voor echte emails')
+      
+      return NextResponse.json({ 
+        success: true, 
+        messageId: 'demo-' + Date.now(),
+        demo: true,
+        message: '✨ Demo mode: Email zou zijn verstuurd! Configureer RESEND_API_KEY voor echte emails.'
+      })
+    }
+
+    // Initialize Resend only when we have a key
+    const resend = new Resend(process.env.RESEND_API_KEY)
+    
     if (!email) {
       return NextResponse.json({ error: 'Email is required' }, { status: 400 })
     }

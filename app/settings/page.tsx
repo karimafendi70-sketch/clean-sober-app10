@@ -86,7 +86,11 @@ export default function SettingsPage() {
       const data = await response.json()
 
       if (response.ok && data.success) {
-        setMessage('✓ Test email verstuurd! Check je inbox.')
+        if (data.demo) {
+          setMessage('✨ Demo mode actief! Email zou zijn verstuurd. Configureer RESEND_API_KEY voor echte emails.')
+        } else {
+          setMessage('✓ Test email verstuurd! Check je inbox.')
+        }
       } else {
         setMessage(`✗ ${data.error || data.message || 'Kon email niet versturen'}`)
       }
