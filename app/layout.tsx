@@ -1,7 +1,8 @@
 import './globals.css'
 import { Providers } from './providers'
+import type { Metadata } from 'next'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Sober Tracker',
   description: 'A tiny sober tracker'
 }
