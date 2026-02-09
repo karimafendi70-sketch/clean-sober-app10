@@ -38,44 +38,44 @@ export default function LoginPage(){
   }
 
   return (
-    <div style={{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',background:'linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%)'}}>
-      <div style={{background:'white',borderRadius:'12px',padding:'40px',boxShadow:'0 10px 40px rgba(0,0,0,0.1)',maxWidth:'420px',width:'100%'}}>
+    <div style={{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',background:'linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%)'}}>
+      <div style={{background:'var(--card-bg)',borderRadius:'12px',padding:'40px',boxShadow:'0 10px 40px rgba(0,0,0,0.1)',maxWidth:'420px',width:'100%'}}>
         
-        <h1 style={{textAlign:'center',color:'#064e3b',marginBottom:'8px'}}>Sober Tracker</h1>
-        <p style={{textAlign:'center',color:'#6b7280',marginBottom:'32px'}}>Jouw reis naar gezondheid</p>
+        <h1 style={{textAlign:'center',color:'var(--text-primary)',marginBottom:'8px'}}>Sober Tracker</h1>
+        <p style={{textAlign:'center',color:'var(--text-secondary)',marginBottom:'32px'}}>Jouw reis naar gezondheid</p>
 
         <div style={{marginBottom:'20px'}}>
-          <label style={{display:'block',color:'#374151',fontWeight:'600',marginBottom:'6px'}}>E-mailadres</label>
+          <label style={{display:'block',color:'var(--text-primary)',fontWeight:'600',marginBottom:'6px'}}>E-mailadres</label>
           <input 
             type="email" 
             value={email} 
             onChange={e=>setEmail(e.target.value)} 
             placeholder="jouw@email.com"
-            style={{width:'100%',padding:'12px',border:'1px solid #d1d5db',borderRadius:'8px',fontSize:'14px',transition:'all 0.2s'}}
-            onFocus={e => {const el = e.target as HTMLInputElement; el.style.borderColor='#16a34a'}}
-            onBlur={e => {const el = e.target as HTMLInputElement; el.style.borderColor='#d1d5db'}}
+            style={{width:'100%',padding:'12px',border:'1px solid var(--border-color)',borderRadius:'8px',fontSize:'14px',transition:'all 0.2s',background:'var(--card-bg)',color:'var(--text-primary)'}}
+            onFocus={e => {const el = e.target as HTMLInputElement; el.style.borderColor='var(--green-primary)'}}
+            onBlur={e => {const el = e.target as HTMLInputElement; el.style.borderColor='var(--border-color)'}}
           />
         </div>
 
         <div style={{marginBottom:'24px'}}>
-          <label style={{display:'block',color:'#374151',fontWeight:'600',marginBottom:'6px'}}>Wachtwoord</label>
+          <label style={{display:'block',color:'var(--text-primary)',fontWeight:'600',marginBottom:'6px'}}>Wachtwoord</label>
           <input 
             type="password" 
             value={password} 
             onChange={e=>setPassword(e.target.value)} 
             placeholder="••••••••"
-            style={{width:'100%',padding:'12px',border:'1px solid #d1d5db',borderRadius:'8px',fontSize:'14px',transition:'all 0.2s'}}
-            onFocus={e => {const el = e.target as HTMLInputElement; el.style.borderColor='#16a34a'}}
-            onBlur={e => {const el = e.target as HTMLInputElement; el.style.borderColor='#d1d5db'}}
+            style={{width:'100%',padding:'12px',border:'1px solid var(--border-color)',borderRadius:'8px',fontSize:'14px',transition:'all 0.2s',background:'var(--card-bg)',color:'var(--text-primary)'}}
+            onFocus={e => {const el = e.target as HTMLInputElement; el.style.borderColor='var(--green-primary)'}}
+            onBlur={e => {const el = e.target as HTMLInputElement; el.style.borderColor='var(--border-color)'}}
           />
         </div>
 
         <button 
           onClick={handleAuth}
           disabled={loading}
-          style={{width:'100%',padding:'12px',background:loading?'#9ca3af':'#16a34a',color:'white',border:'none',borderRadius:'8px',fontWeight:'600',fontSize:'16px',cursor:loading?'default':'pointer',marginBottom:'12px',transition:'all 0.2s'}}
-          onMouseEnter={e => {if(!loading){const el = e.target as HTMLButtonElement; el.style.background='#15803d'; el.style.transform='translateY(-2px)'; el.style.boxShadow='0 4px 12px rgba(22,163,74,0.3)'}}}
-          onMouseLeave={e => {if(!loading){const el = e.target as HTMLButtonElement; el.style.background='#16a34a'; el.style.transform='translateY(0)'; el.style.boxShadow='none'}}}
+          style={{width:'100%',padding:'12px',background:loading?'var(--text-muted)':'var(--green-primary)',color:'white',border:'none',borderRadius:'8px',fontWeight:'600',fontSize:'16px',cursor:loading?'default':'pointer',marginBottom:'12px',transition:'all 0.2s'}}
+          onMouseEnter={e => {if(!loading){const el = e.target as HTMLButtonElement; el.style.background='var(--green-dark)'; el.style.transform='translateY(-2px)'; el.style.boxShadow='0 4px 12px rgba(22,163,74,0.3)'}}}  
+          onMouseLeave={e => {if(!loading){const el = e.target as HTMLButtonElement; el.style.background='var(--green-primary)'; el.style.transform='translateY(0)'; el.style.boxShadow='none'}}}
         >
           {loading ? 'Bezig...' : (isSignUp ? 'Account maken' : 'Inloggen')}
         </button>

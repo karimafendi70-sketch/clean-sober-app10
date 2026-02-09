@@ -40,17 +40,17 @@ export default function Home(){
   }
 
   return (
-    <div style={{minHeight:'100vh',background:'linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%)',padding:'20px',display:'flex',alignItems:'center',justifyContent:'center'}}>
+    <div style={{minHeight:'100vh',background:'linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%)',padding:'20px',display:'flex',alignItems:'center',justifyContent:'center'}}>
       <div style={{maxWidth:'500px',width:'100%'}}>
         {/* Header with user info */}
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'20px'}}>
-          <h1 style={{color:'#064e3b',fontSize:'32px',margin:0}}>Sober Tracker</h1>
+          <h1 style={{color:'var(--text-primary)',fontSize:'32px',margin:0}}>Sober Tracker</h1>
           {user && (
             <button 
               onClick={() => signOut()}
-              style={{padding:'8px 16px',background:'rgba(255,255,255,0.7)',color:'#064e3b',border:'none',borderRadius:'8px',fontSize:'14px',fontWeight:'600',cursor:'pointer',transition:'all 0.2s'}}
-              onMouseEnter={e => {const el = e.target as HTMLButtonElement; el.style.background='white'; el.style.transform='translateY(-2px)'}}
-              onMouseLeave={e => {const el = e.target as HTMLButtonElement; el.style.background='rgba(255,255,255,0.7)'; el.style.transform='translateY(0)'}}
+              style={{padding:'8px 16px',background:'var(--card-bg)',color:'var(--text-primary)',border:'2px solid var(--border-color)',borderRadius:'8px',fontSize:'14px',fontWeight:'600',cursor:'pointer',transition:'all 0.2s'}}
+              onMouseEnter={e => {const el = e.target as HTMLButtonElement; el.style.opacity='0.8'; el.style.transform='translateY(-2px)'}}
+              onMouseLeave={e => {const el = e.target as HTMLButtonElement; el.style.opacity='1'; el.style.transform='translateY(0)'}}
             >
               Uitloggen
             </button>
@@ -58,22 +58,22 @@ export default function Home(){
         </div>
 
         {user && (
-          <div style={{background:'rgba(255,255,255,0.7)',borderRadius:'12px',padding:'12px 16px',marginBottom:'20px',border:'2px solid rgba(22,163,74,0.2)'}}>
-            <p style={{margin:0,fontSize:'14px',color:'#064e3b'}}>
+          <div style={{background:'var(--card-bg)',borderRadius:'12px',padding:'12px 16px',marginBottom:'20px',border:'2px solid var(--border-color)'}}>
+            <p style={{margin:0,fontSize:'14px',color:'var(--text-primary)'}}>
               👤 <span style={{fontWeight:'600'}}>{user.email}</span>
             </p>
           </div>
         )}
 
         {/* Main Card */}
-        <div style={{background:'white',borderRadius:'16px',padding:'40px',boxShadow:'0 20px 60px rgba(0,0,0,0.1)',marginBottom:'20px'}}>
+        <div style={{background:'var(--card-bg)',borderRadius:'16px',padding:'40px',boxShadow:'0 20px 60px rgba(0,0,0,0.1)',marginBottom:'20px'}}>
           {/* Days Counter */}
           <div style={{textAlign:'center',marginBottom:'30px'}}>
-            <div style={{fontSize:'72px',fontWeight:'800',color:'#16a34a',lineHeight:'1'}}>{days}</div>
-            <p style={{fontSize:'18px',color:'#6b7280',marginTop:'8px'}}>dagen schoon 🌟</p>
+            <div style={{fontSize:'72px',fontWeight:'800',color:'var(--green-primary)',lineHeight:'1'}}>{days}</div>
+            <p style={{fontSize:'18px',color:'var(--text-secondary)',marginTop:'8px'}}>dagen schoon 🌟</p>
             {startDate && (
-              <p style={{fontSize:'12px',color:'#9ca3af',marginTop:'8px'}}>
-                Gestart: <span style={{fontWeight:'600',color:'#16a34a'}}>{new Date(startDate).toLocaleDateString('nl-NL')}</span>
+              <p style={{fontSize:'12px',color:'var(--text-muted)',marginTop:'8px'}}>
+                Gestart: <span style={{fontWeight:'600',color:'var(--green-primary)'}}>{new Date(startDate).toLocaleDateString('nl-NL')}</span>
               </p>
             )}
           </div>
@@ -82,9 +82,9 @@ export default function Home(){
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'12px'}}>
             <button 
               onClick={startNow}
-              style={{padding:'16px',background:'#16a34a',color:'white',border:'none',borderRadius:'10px',fontWeight:'600',fontSize:'16px',cursor:'pointer',transition:'all 0.3s'}}
-              onMouseEnter={e => {const el = e.target as HTMLButtonElement; el.style.background='#15803d'; el.style.transform='translateY(-4px)'; el.style.boxShadow='0 8px 20px rgba(22,163,74,0.3)'}}
-              onMouseLeave={e => {const el = e.target as HTMLButtonElement; el.style.background='#16a34a'; el.style.transform='translateY(0)'; el.style.boxShadow='none'}}
+              style={{padding:'16px',background:'var(--green-primary)',color:'white',border:'none',borderRadius:'10px',fontWeight:'600',fontSize:'16px',cursor:'pointer',transition:'all 0.3s'}}
+              onMouseEnter={e => {const el = e.target as HTMLButtonElement; el.style.background='var(--green-dark)'; el.style.transform='translateY(-4px)'; el.style.boxShadow='0 8px 20px rgba(22,163,74,0.3)'}}
+              onMouseLeave={e => {const el = e.target as HTMLButtonElement; el.style.background='var(--green-primary)'; el.style.transform='translateY(0)'; el.style.boxShadow='none'}}
             >
               ▶ Start
             </button>
@@ -102,16 +102,16 @@ export default function Home(){
         {/* Login/Dashboard Link */}
         <div style={{textAlign:'center'}}>
           {user ? (
-            <Link href="/dashboard" style={{display:'inline-block',padding:'12px 24px',background:'rgba(255,255,255,0.6)',color:'#064e3b',borderRadius:'10px',fontWeight:'600',textDecoration:'none',transition:'all 0.3s',border:'2px solid rgba(22,163,74,0.2)',boxSizing:'border-box'}}
-              onMouseEnter={e => {const el = e.target as HTMLAnchorElement; el.style.background='white'; el.style.transform='translateY(-2px)'; el.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'}}
-              onMouseLeave={e => {const el = e.target as HTMLAnchorElement; el.style.background='rgba(255,255,255,0.6)'; el.style.transform='translateY(0)'; el.style.boxShadow='none'}}
+            <Link href="/dashboard" style={{display:'inline-block',padding:'12px 24px',background:'var(--card-bg)',color:'var(--text-primary)',borderRadius:'10px',fontWeight:'600',textDecoration:'none',transition:'all 0.3s',border:'2px solid var(--border-color)',boxSizing:'border-box'}}
+              onMouseEnter={e => {const el = e.target as HTMLAnchorElement; el.style.opacity='0.8'; el.style.transform='translateY(-2px)'; el.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'}}
+              onMouseLeave={e => {const el = e.target as HTMLAnchorElement; el.style.opacity='1'; el.style.transform='translateY(0)'; el.style.boxShadow='none'}}
             >
               📊 Dashboard
             </Link>
           ) : (
-            <Link href="/login" style={{display:'inline-block',padding:'12px 24px',background:'rgba(255,255,255,0.6)',color:'#064e3b',borderRadius:'10px',fontWeight:'600',textDecoration:'none',transition:'all 0.3s',border:'2px solid rgba(22,163,74,0.2)',boxSizing:'border-box'}}
-              onMouseEnter={e => {const el = e.target as HTMLAnchorElement; el.style.background='white'; el.style.transform='translateY(-2px)'; el.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'}}
-              onMouseLeave={e => {const el = e.target as HTMLAnchorElement; el.style.background='rgba(255,255,255,0.6)'; el.style.transform='translateY(0)'; el.style.boxShadow='none'}}
+            <Link href="/login" style={{display:'inline-block',padding:'12px 24px',background:'var(--card-bg)',color:'var(--text-primary)',borderRadius:'10px',fontWeight:'600',textDecoration:'none',transition:'all 0.3s',border:'2px solid var(--border-color)',boxSizing:'border-box'}}
+              onMouseEnter={e => {const el = e.target as HTMLAnchorElement; el.style.opacity='0.8'; el.style.transform='translateY(-2px)'; el.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'}}
+              onMouseLeave={e => {const el = e.target as HTMLAnchorElement; el.style.opacity='1'; el.style.transform='translateY(0)'; el.style.boxShadow='none'}}
             >
               → Inloggen
             </Link>
