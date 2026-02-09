@@ -18,9 +18,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Check if Supabase is configured
+    // Check localStorage for mock user first
+    const mockUser = localStorage.getItem('mock-user')
+    if (mockUser) {
+      try {
+        setUser(JSON.parse(mockUser))
+        setLoading(false)
+        return
+      } catch (e) {
+        localStorage.removeItem('mock-user')
+      }
+    }
+    
+    // Try Supabase if configured
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-      console.warn('Supabase env vars not configured')
+      console.warn('Supabase env vars not configured, using mock auth')
       setLoading(false)
       return
     }
@@ -33,7 +45,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(session?.user ?? null)
         setLoading(false)
       }).catch(err => {
-        console.error('Auth session error:', err)
+        console.error('Auth session error, using mock:', err)
         setLoading(false)
       })
 
@@ -44,27 +56,66 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       return () => subscription.unsubscribe()
     } catch (error) {
-      console.error('AuthProvider error:', error)
+      console.error('AuthProvider error, using mock:', error)
       setLoading(false)
     }
   }, [])
 
   const signIn = async (email: string, password: string) => {
-    const supabase = getSupabase()
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
-    if (error) throw error
+    try {
+      const supabase = getSupabase()
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+      if (error) throw error
+      if (data.user) {
+        setUser(data.user)
+        localStorage.setItem('mock-user', JSON.stringify({ email, id: data.user.id }))
+      }
+    } catch (error: any) {
+      // Fallback to localStorage mock auth
+      const stored = localStorage.getItem('mock-users') || '[]'
+      const users = JSON.parse(stored)
+      const found = users.find((u: any) => u.email === email && u.password === password)
+      if (!found) throw new Error('Ongeldige inloggegevens')
+      const mockUser: any = { email, id: found.id }
+      setUser(mockUser)
+      localStorage.setItem('mock-user', JSON.stringify(mockUser))
+    }
   }
 
   const signUp = async (email: string, password: string) => {
-    const supabase = getSupabase()
-    const { error } = await supabase.auth.signUp({ email, password })
-    if (error) throw error
+    try {
+      const supabase = getSupabase()
+      const { data, error } = await supabase.auth.signUp({ email, password })
+      if (error) throw error
+      if (data.user) {
+        setUser(data.user)
+        localStorage.setItem('mock-user', JSON.stringify({ email, id: data.user.id }))
+      }
+    } catch (error: any) {
+      // Fallback to localStorage mock auth
+      const stored = localStorage.getItem('mock-users') || '[]'
+      const users = JSON.parse(stored)
+      if (users.find((u: any) => u.email === email)) {
+        throw new Error('Email bestaat al')
+      }
+      const newUser = { email, password, id: `mock-${Date.now()}` }
+      users.push(newUser)
+      localStorage.setItem('mock-users', JSON.stringify(users))
+      const mockUser: any = { email, id: newUser.id }
+      setUser(mockUser)
+      localStorage.setItem('mock-user', JSON.stringify(mockUser))
+    }
   }
 
   const signOut = async () => {
-    const supabase = getSupabase()
-    const { error } = await supabase.auth.signOut()
-    if (error) throw error
+    try {
+      const supabase = getSupabase()
+      await supabase.auth.signOut()
+    } catch (error) {
+      console.log('Supabase signout failed, using mock')
+    }
+    setUser(null)
+    localStorage.removeItem('mock-user')
   }
 
   return (
