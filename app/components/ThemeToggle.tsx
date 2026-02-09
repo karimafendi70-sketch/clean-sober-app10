@@ -10,7 +10,9 @@ export function ThemeToggle() {
     setMounted(true)
   }, [])
   
-  if (!mounted) return null
+  if (!mounted) {
+    return null
+  }
   
   return (
     <button

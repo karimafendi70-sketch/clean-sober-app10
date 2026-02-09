@@ -15,19 +15,29 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    const stored = localStorage.getItem('sober-theme') as Theme
-    if (stored) {
-      setTheme(stored)
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setTheme('dark')
+    try {
+      const stored = localStorage.getItem('sober-theme') as Theme
+      if (stored && (stored === 'light' || stored === 'dark')) {
+        setTheme(stored)
+        document.documentElement.setAttribute('data-theme', stored)
+      } else if (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        setTheme('dark')
+        document.documentElement.setAttribute('data-theme', 'dark')
+      }
+    } catch (e) {
+      console.error('Theme init error:', e)
     }
     setMounted(true)
   }, [])
 
   useEffect(() => {
-    if (mounted) {
-      localStorage.setItem('sober-theme', theme)
-      document.documentElement.setAttribute('data-theme', theme)
+    if (mounted && typeof window !== 'undefined') {
+      try {
+        localStorage.setItem('sober-theme', theme)
+        document.documentElement.setAttribute('data-theme', theme)
+      } catch (e) {
+        console.error('Theme save error:', e)
+      }
     }
   }, [theme, mounted])
 
