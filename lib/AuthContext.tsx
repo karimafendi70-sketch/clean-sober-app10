@@ -18,8 +18,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const supabase = getSupabase()
-    
     // Check if Supabase is configured
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
       console.warn('Supabase env vars not configured')
@@ -27,21 +25,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return
     }
     
-    // Check active session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null)
-      setLoading(false)
-    }).catch(err => {
-      console.error('Auth session error:', err)
-      setLoading(false)
-    })
+    try {
+      const supabase = getSupabase()
+      
+      // Check active session
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        setUser(session?.user ?? null)
+        setLoading(false)
+      }).catch(err => {
+        console.error('Auth session error:', err)
+        setLoading(false)
+      })
 
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null)
-    })
+      // Listen for auth changes
+      const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+        setUser(session?.user ?? null)
+      })
 
-    return () => subscription.unsubscribe()
+      return () => subscription.unsubscribe()
+    } catch (error) {
+      console.error('AuthProvider error:', error)
+      setLoading(false)
+    }
   }, [])
 
   const signIn = async (email: string, password: string) => {
