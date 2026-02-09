@@ -61,12 +61,20 @@ export default function DashboardPage() {
         {/* Header */}
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'30px'}}>
           <h1 style={{color:'var(--text-primary)',fontSize:'32px',margin:0}}>📊 Dashboard</h1>
-          <Link href="/" style={{padding:'8px 16px',background:'var(--card-bg)',color:'var(--text-primary)',borderRadius:'8px',fontSize:'14px',fontWeight:'600',textDecoration:'none',transition:'all 0.2s',border:'2px solid var(--border-color)'}}
-            onMouseEnter={e => {const el = e.target as HTMLAnchorElement; el.style.opacity='0.8'; el.style.transform='translateY(-2px)'}}
-            onMouseLeave={e => {const el = e.target as HTMLAnchorElement; el.style.opacity='1'; el.style.transform='translateY(0)'}}
-          >
-            ← Terug
-          </Link>
+          <div style={{display:'flex',gap:'12px'}}>
+            <Link href="/settings" style={{padding:'8px 16px',background:'var(--card-bg)',color:'var(--text-primary)',borderRadius:'8px',fontSize:'14px',fontWeight:'600',textDecoration:'none',transition:'all 0.2s',border:'2px solid var(--border-color)'}}
+              onMouseEnter={e => {const el = e.target as HTMLAnchorElement; el.style.opacity='0.8'; el.style.transform='translateY(-2px)'}}
+              onMouseLeave={e => {const el = e.target as HTMLAnchorElement; el.style.opacity='1'; el.style.transform='translateY(0)'}}
+            >
+              ⚙️ Instellingen
+            </Link>
+            <Link href="/" style={{padding:'8px 16px',background:'var(--card-bg)',color:'var(--text-primary)',borderRadius:'8px',fontSize:'14px',fontWeight:'600',textDecoration:'none',transition:'all 0.2s',border:'2px solid var(--border-color)'}}
+              onMouseEnter={e => {const el = e.target as HTMLAnchorElement; el.style.opacity='0.8'; el.style.transform='translateY(-2px)'}}
+              onMouseLeave={e => {const el = e.target as HTMLAnchorElement; el.style.opacity='1'; el.style.transform='translateY(0)'}}
+            >
+              ← Terug
+            </Link>
+          </div>
         </div>
 
         {/* Stats Grid */}
